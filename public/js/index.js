@@ -931,10 +931,10 @@ ui.toolbar.extra.slide.attr('href', noteurl + '/slide')
 ui.toolbar.download.markdown.click(function (e) {
   e.preventDefault()
   e.stopPropagation()
-  var filename = renderFilename(ui.area.markdown) + '.md'
+  var filename = renderFilename(ui.area.markdown) + '.adoc'
   var markdown = editor.getValue()
   var blob = new Blob([markdown], {
-    type: 'text/markdown;charset=utf-8'
+    type: 'text/asciidoc;charset=utf-8'
   })
   saveAs(blob, filename, true)
 })
@@ -954,7 +954,7 @@ ui.toolbar.download.rawhtml.click(function (e) {
 ui.toolbar.download.pdf.attr('download', '').attr('href', noteurl + '/pdf')
 // export to dropbox
 ui.toolbar.export.dropbox.click(function () {
-  var filename = renderFilename(ui.area.markdown) + '.md'
+  var filename = renderFilename(ui.area.markdown) + '.adoc'
   var options = {
     files: [
       {
@@ -1014,7 +1014,7 @@ ui.toolbar.import.dropbox.click(function () {
     },
     linkType: 'direct',
     multiselect: false,
-    extensions: ['.md', '.html']
+    extensions: ['.adoc', '.html']
   }
   Dropbox.choose(options)
 })
@@ -1236,9 +1236,9 @@ function initRevisionViewer () {
 }
 $('#revisionModalDownload').click(function () {
   if (!revision) return
-  var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.md'
+  var filename = renderFilename(ui.area.markdown) + '_' + revisionTime + '.adoc'
   var blob = new Blob([revision.content], {
-    type: 'text/markdown;charset=utf-8'
+    type: 'text/asciidoc;charset=utf-8'
   })
   saveAs(blob, filename, true)
 })
@@ -1447,16 +1447,16 @@ $('#snippetImportModalConfirm').click(function () {
       .done(function (data) {
         var content = '# ' + (data.title || 'Snippet Import')
         var fileInfo = data.file_name.split('.')
-        fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'md'
+        fileInfo[1] = (fileInfo[1]) ? fileInfo[1] : 'adoc'
         $.get(fullURL + '/raw' + accessToken)
           .done(function (raw) {
             if (raw) {
               content += '\n\n'
-              if (fileInfo[1] !== 'md') {
+              if (fileInfo[1] !== 'adoc') {
                 content += '```' + fileTypes[fileInfo[1]] + '\n'
               }
               content += raw
-              if (fileInfo[1] !== 'md') {
+              if (fileInfo[1] !== 'adoc') {
                 content += '\n```'
               }
               replaceAll(content)
@@ -2759,7 +2759,7 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
-  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']})
+  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true', 'toc-placement=macrotoc-placement=macro@@']})
   var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
@@ -2797,9 +2797,9 @@ function updateViewInner () {
   finishView(ui.area.markdown)
   autoLinkify(ui.area.markdown)
   deduplicatedHeaderId(ui.area.markdown)
-  renderTOC(ui.area.markdown)
-  generateToc('ui-toc')
-  generateToc('ui-toc-affix')
+  //renderTOC(ui.area.markdown)
+  //generateToc('ui-toc')
+  //generateToc('ui-toc-affix')
   autoLinkify(ui.area.markdown)
   generateScrollspy()
   updateScrollspy()
