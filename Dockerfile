@@ -17,8 +17,8 @@ RUN apt remove -y --auto-remove \
   && apt purge \
   && rm -r /var/lib/apt/lists/*
 
-COPY config.json config.json
-COPY sequelizerc .sequelizerc
+COPY config.json.example config.json
+COPY .sequelizerc.example .sequelizerc
 
 
 CMD ["node", "app.js"]
