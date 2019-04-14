@@ -263,6 +263,7 @@ module.exports = {
       path.join(__dirname, 'public/js/index.js')
     ],
     pretty: [
+      'script-loader!asciidoctor',
       'babel-polyfill',
       'flowchart.js',
       'script-loader!js-sequence-diagrams',
@@ -281,6 +282,7 @@ module.exports = {
       path.join(__dirname, 'node_modules/ionicons/css/ionicons.min.css')
     ],
     'pretty-pack': [
+      'script-loader!asciidoctor',
       'babel-polyfill',
       'expose-loader?jsyaml!js-yaml',
       'script-loader!mermaid',
@@ -348,6 +350,7 @@ module.exports = {
     modules: ['node_modules'],
     extensions: ['.js'],
     alias: {
+      asciidoctor: path.join(__dirname, 'node_modules/asciidoctor/index.js'),
       codemirror: path.join(__dirname, 'node_modules/@hackmd/codemirror/codemirror.min.js'),
       inlineAttachment: path.join(__dirname, 'public/vendor/inlineAttachment/inline-attachment.js'),
       jqueryTextcomplete: path.join(__dirname, 'public/vendor/jquery-textcomplete/jquery.textcomplete.js'),

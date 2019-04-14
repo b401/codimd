@@ -12,9 +12,10 @@ import unescapeHTML from 'lodash/unescape'
 import { stripTags } from '../../utils/string'
 
 import getUIElements from './lib/editor/ui-elements'
-
 import markdownit from 'markdown-it'
 import markdownitContainer from 'markdown-it-container'
+
+import Asciidoctor from 'asciidoctor'
 
 /* Defined regex markdown it plugins */
 import Plugin from 'markdown-it-regexp'
@@ -32,7 +33,6 @@ require('./lib/common/login')
 require('../vendor/md-toc')
 var Viz = require('viz.js')
 const ui = getUIElements()
-
 // auto update last change
 window.createtime = null
 window.lastchangetime = null
@@ -975,6 +975,9 @@ md.use(require('markdown-it-emoji'), {
   shortcuts: {}
 })
 
+export let adoc = Asciidoctor()
+window.adoc = adoc;
+
 window.emojify.setConfig({
   blacklist: {
     elements: ['script', 'textarea', 'a', 'pre', 'code', 'svg'],
@@ -996,6 +999,8 @@ md.use(markdownitContainer, 'success', { render: renderContainer })
 md.use(markdownitContainer, 'info', { render: renderContainer })
 md.use(markdownitContainer, 'warning', { render: renderContainer })
 md.use(markdownitContainer, 'danger', { render: renderContainer })
+
+
 
 let defaultImageRender = md.renderer.rules.image
 md.renderer.rules.image = function (tokens, idx, options, env, self) {

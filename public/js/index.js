@@ -41,6 +41,7 @@ import {
   generateToc,
   isValidURL,
   md,
+  adoc,
   parseMeta,
   postProcess,
   renderFilename,
@@ -83,6 +84,8 @@ require('../css/index.css')
 require('../css/extra.css')
 require('../css/slide-preview.css')
 require('../css/site.css')
+
+require('asciidoctor')()
 
 require('highlight.js/styles/github-gist.css')
 
@@ -2756,7 +2759,8 @@ function updateViewInner () {
   var lastMeta = md.meta
   md.meta = {}
   delete md.metaError
-  var rendered = md.render(value)
+  var adoc_options = Opal.hash2(['header_footer','attributes'],{ 'header_footer': true, 'attributes': ['icons=font@', 'showTitle=true']})
+  var rendered = adoc.convert(value, adoc_options)
   if (md.meta.type && md.meta.type === 'slide') {
     var slideOptions = {
       separator: '^(\r\n?|\n)---(\r\n?|\n)$',
@@ -2780,7 +2784,7 @@ function updateViewInner () {
     // only render again when meta changed
     if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
       parseMeta(md, ui.area.codemirror, ui.area.markdown, $('#ui-toc'), $('#ui-toc-affix'))
-      rendered = md.render(value)
+      rendered = adoc.convert(value,adoc_options)
     }
     // prevent XSS
     rendered = preventXSS(rendered)

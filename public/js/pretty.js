@@ -7,6 +7,7 @@ import {
   removeDOMEvents,
   finishView,
   generateToc,
+  adoc,
   md,
   parseMeta,
   postProcess,
@@ -25,11 +26,12 @@ require('../css/site.css')
 require('highlight.js/styles/github-gist.css')
 
 const markdown = $('#doc.markdown-body')
-const text = markdown.text()
 const lastMeta = md.meta
 md.meta = {}
+var text = markdown.text()
 delete md.metaError
-let rendered = md.render(text)
+var adoc_options = Opal.hash2(['header_footer', 'attributes'], { 'header_footer': true, 'attributes': ['icons=font@']})
+let rendered = adoc.convert(text, adoc_options)
 if (md.meta.type && md.meta.type === 'slide') {
   const slideOptions = {
     separator: '^(\r\n?|\n)---(\r\n?|\n)$',
@@ -49,7 +51,7 @@ if (md.meta.type && md.meta.type === 'slide') {
   // only render again when meta changed
   if (JSON.stringify(md.meta) !== JSON.stringify(lastMeta)) {
     parseMeta(md, null, markdown, $('#ui-toc'), $('#ui-toc-affix'))
-    rendered = md.render(text)
+    rendered = adoc.convert(text, adoc_options)
   }
   // prevent XSS
   rendered = preventXSS(rendered)
