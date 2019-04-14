@@ -2807,6 +2807,7 @@ function updateViewInner () {
   isDirty = false
   clearMap()
   // buildMap();
+  var plantuml = require('asciidoctor-plantuml');
   updateTitleReminder()
   if (postUpdateEvent && typeof postUpdateEvent === 'function') { postUpdateEvent() }
 }
