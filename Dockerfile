@@ -6,8 +6,8 @@ RUN apt update && apt install -y \
   git \
   sqlite3
 
-RUN git clone -b asciidoc https://github.com/b401/codimd.git /var/hackadoc
-WORKDIR /var/hackadoc
+RUN git clone -b asciidoc https://github.com/b401/codimd.git /hackadoc
+WORKDIR /hackadoc
 RUN npm install \
   && npm run build \
   && npm prune --production
@@ -19,5 +19,6 @@ RUN apt remove -y --auto-remove \
 
 COPY config.json config.json
 COPY sequelizerc .sequelizerc
+
 
 CMD ["node", "app.js"]
