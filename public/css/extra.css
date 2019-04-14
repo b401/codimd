@@ -397,8 +397,11 @@ small .dropdown a:focus, small .dropdown a:hover {
 th.halign-left,td.halign-left{
     text-align:left
 }
+
 th.halign-right,td.halign-right{
     text-align:right
 }
+
 th.halign-center,td.halign-center{
     text-align:center
+}
