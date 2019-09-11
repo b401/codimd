@@ -10,7 +10,10 @@ RUN git clone -b asciidoc https://github.com/b401/codimd.git /hackadoc
 WORKDIR /hackadoc
 RUN npm install \
   && npm run build \
-  && npm prune --production
+  && npm prune --production \
+# The meta-marked is referenced as marked in note.js (also in node_modules)
+# Maybe this can be done in a cleaner way?  
+  && sed -i 's/meta-marked/marked/' lib/models/note.js 
 
 RUN apt remove -y --auto-remove \
   build-essential \
